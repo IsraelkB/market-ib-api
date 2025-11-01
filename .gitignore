@@ -2,5 +2,8 @@
 .env
 .idea/
 __pycache__/
-report/*
-report
+reports/*
+reports
+analyze
+analyze/*
+analyze_data.xlsx

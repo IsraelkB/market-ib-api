@@ -14,7 +14,7 @@ ib = IB()
 ib.connect(settings.host, settings.demo_port, clientId=settings.client_id)
 stock = Stock(stock_name, "SMART", "USD")
 
-csv_file = f"/report/{stock_name}_bars.csv"
+csv_file = f"/reports/{stock_name}_bars.csv"
 
 
 end_time = datetime.strptime("20251031 16:00:00", "%Y%m%d %H:%M:%S")

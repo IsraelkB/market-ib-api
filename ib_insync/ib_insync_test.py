@@ -3,6 +3,7 @@ from config import settings
 import csv
 from calculate_bollinger_bands import *
 import os
+from datetime import datetime, timedelta
 
 ib = IB()
 
@@ -11,14 +12,14 @@ ib = IB()
 # paper connection
 ib.connect(settings.host, settings.demo_port, clientId=settings.client_id)
 
-stock_name = input("Enter stock name: ")
+stock_name = input("Enter stock name: ").upper()
 
 stock = Stock(stock_name, "SMART", "USD")
 
 if stock is None:
     raise ValueError("Stock name not found")
 
-csv_file = f"C:/Users/Israel/PycharmProjects/market ib api/report/{stock_name}_bars.csv"
+csv_file = f"C:/Users/Israel/PycharmProjects/market ib api/reports/{stock_name}_bars.csv"
 os.makedirs(os.path.dirname(csv_file), exist_ok=True)
 
 with open(csv_file, mode="w", newline='', encoding='utf-8') as file:
@@ -30,7 +31,7 @@ with open(csv_file, mode="w", newline='', encoding='utf-8') as file:
     bars = ib.reqHistoricalData(
             stock,
             endDateTime='',
-            durationStr="1 M",
+            durationStr="2 M",
             barSizeSetting='2 mins',
             whatToShow='MIDPOINT',
             useRTH=True,
