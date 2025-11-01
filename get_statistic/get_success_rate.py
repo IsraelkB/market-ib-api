@@ -4,8 +4,17 @@ import os
 import pandas as pd
 from collections import defaultdict
 
+mult = input("please insert the mult σ you want\n")
 
-sigma_calculated = "1σ"
+if mult.isnumeric():
+    mult = int(mult)
+else:
+    raise ValueError("please insert a valid number between 1 and 3")
+
+if mult < 1 or mult > 3:
+    raise ValueError("please insert valid mult between 1 and 3")
+
+sigma_calculated = f"{mult}σ"
 analyze_df = []
 
 
@@ -60,14 +69,14 @@ def get_performance_data(value, row_number, stp_loss, key, indicate_line, bb_tre
 
 
 def find_back_point(value, row_number, stp_loss, key, indicate_line):
-    bb_up = True
-    bb_down = True
-    bb_trend = ""
+    if row_number >= len(value):
+        return None
+
     last_bb_price = value[row_number][indicate_line]
     for i in range(row_number, len(value)):
         curr_row = value[i]
         bb_up = curr_row[indicate_line] > last_bb_price
-        bb_up = curr_row[indicate_line] < last_bb_price
+        bb_down = curr_row[indicate_line] < last_bb_price
         bb_trend = "UP" if bb_up else ("DOWN" if bb_down else "FLET")
 
         if indicate_line.find("upper") != -1:
@@ -84,7 +93,7 @@ def find_back_point(value, row_number, stp_loss, key, indicate_line):
     return None
 
 
-analyze_csv = f"C:/Users/Israel/PycharmProjects/market ib api/analyze/success_rate_bb.csv"
+analyze_csv = f"C:/Users/Israel/PycharmProjects/market ib api/analyze/success_rate_bb_{sigma_calculated}.csv"
 report_path = f"C:/Users/Israel/PycharmProjects/market ib api/reports"
 
 all_files = glob.glob(os.path.join(report_path, "*.csv"))
@@ -107,12 +116,12 @@ for key, value in list_of_dfs.items():
         row = value[i]
         upper_string = f"upper_{sigma_calculated}"
         lower_string = f"lower_{sigma_calculated}"
-        if row["open"] < row[upper_string] < row["close"]:
+        if row["open"] < row[upper_string] < row["close"] and i + 1 < len(value):
             exit_row = find_back_point(value, i + 1, row["high"], key, upper_string)
-            i = exit_row if exit_row is not None else i
-        elif row["open"] > row[lower_string] > row["close"]:
+            i = exit_row + 1 if exit_row is not None else i
+        elif row["open"] > row[lower_string] > row["close"] and i + 1 < len(value):
             exit_row = find_back_point(value, i + 1, row["low"], key, lower_string)
-            i = exit_row if exit_row is not None else i
+            i = exit_row + 1 if exit_row is not None else i
 
 os.makedirs(os.path.dirname(analyze_csv), exist_ok=True)
 

@@ -2,7 +2,7 @@ from ta.volatility import BollingerBands
 
 def calculate_bollinger_bands(df):
     for i in range(1, 4):
-        indicator_bb = BollingerBands(close=df["close"], window=20, window_dev=1)
+        indicator_bb = BollingerBands(close=df["close"], window=20, window_dev=i)
         df[f'upper_{i}σ'] = indicator_bb.bollinger_hband()
         df[f'lower_{i}σ'] = indicator_bb.bollinger_lband()
         df['middle_band'] = indicator_bb.bollinger_mavg()
