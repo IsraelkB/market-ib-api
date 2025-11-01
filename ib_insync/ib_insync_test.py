@@ -2,6 +2,7 @@ from ib_insync import *
 from config import settings
 import csv
 from calculate_bollinger_bands import *
+import os
 
 ib = IB()
 
@@ -18,6 +19,7 @@ if stock is None:
     raise ValueError("Stock name not found")
 
 csv_file = f"C:/Users/Israel/PycharmProjects/market ib api/report/{stock_name}_bars.csv"
+os.makedirs(os.path.dirname(csv_file), exist_ok=True)
 
 with open(csv_file, mode="w", newline='', encoding='utf-8') as file:
     writer = csv.writer(file)
