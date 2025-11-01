@@ -44,7 +44,7 @@ def close_position(entry_time, Entrance_fee, stp_loss, key, exit_time, exit_fee,
 def get_performance_data(value, row_number, stp_loss, key, indicate_line, bb_trend):
     # get Entrance detail
     entry_time = value[row_number]["date"]
-    Entrance_fee = value[row_number][indicate_line]
+    Entrance_fee = value[row_number]["close"]
     max_profit_price = Entrance_fee
     risk_amount = abs(Entrance_fee - stp_loss)
     for i in range(row_number + 1, len(value)):
@@ -80,16 +80,16 @@ def find_back_point(value, row_number, stp_loss, key, indicate_line):
         bb_trend = "UP" if bb_up else ("DOWN" if bb_down else "FLET")
 
         if indicate_line.find("upper") != -1:
-            if curr_row["close"] < curr_row["open"] and curr_row["low"] < curr_row[indicate_line]:
+            if curr_row["close"] < curr_row["open"] and curr_row["close"] < curr_row[indicate_line]:
                 return get_performance_data(value, i, stp_loss, key, indicate_line, bb_trend)
             if curr_row["high"] > stp_loss:
                 stp_loss = curr_row["high"]
 
         else:
-            if curr_row["close"] > curr_row["open"] and curr_row["high"] > curr_row[indicate_line]:
+            if curr_row["close"] > curr_row["open"] and curr_row["close"] > curr_row[indicate_line]:
                 return get_performance_data(value, i, stp_loss, key, indicate_line, bb_trend)
             if curr_row["low"] < stp_loss:
-                stp_loss = curr_row["low"]
+                stp_loss = curr_row["low"] # stop in the latest candle
     return None
 
 
@@ -112,16 +112,20 @@ for filename in all_files:
 #     combined_df = pd.concat(list_of_dfs, ignore_index=True)
 
 for key, value in list_of_dfs.items():
-    for i in range(1, len(value)):
+    i = 1
+    while i < len(value):
         row = value[i]
         upper_string = f"upper_{sigma_calculated}"
         lower_string = f"lower_{sigma_calculated}"
+
         if row["open"] < row[upper_string] < row["close"] and i + 1 < len(value):
             exit_row = find_back_point(value, i + 1, row["high"], key, upper_string)
-            i = exit_row + 1 if exit_row is not None else i
+            i = exit_row + 1 if exit_row is not None else i + 1
         elif row["open"] > row[lower_string] > row["close"] and i + 1 < len(value):
             exit_row = find_back_point(value, i + 1, row["low"], key, lower_string)
-            i = exit_row + 1 if exit_row is not None else i
+            i = exit_row + 1 if exit_row is not None else i + 1
+        else:
+            i += 1
 
 os.makedirs(os.path.dirname(analyze_csv), exist_ok=True)
 
@@ -146,3 +150,9 @@ with open(analyze_csv, mode='w', newline='', encoding='utf-8') as analyze_file:
             row["max_profit"],
             row['bb_trend']
         ])
+
+# the entry pattern need to be significant (in percentage maybe 0.1%).
+# 10 mins before rth close the bot.
+# delay between unsuccessful trades.
+# stp loss to the lowest candle you get in.
+# remove duplicate rows.

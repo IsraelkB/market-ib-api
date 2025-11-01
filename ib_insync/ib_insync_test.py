@@ -31,8 +31,8 @@ with open(csv_file, mode="w", newline='', encoding='utf-8') as file:
     bars = ib.reqHistoricalData(
             stock,
             endDateTime='',
-            durationStr="2 M",
-            barSizeSetting='2 mins',
+            durationStr="1 W",
+            barSizeSetting='1 min',
             whatToShow='MIDPOINT',
             useRTH=True,
         )
