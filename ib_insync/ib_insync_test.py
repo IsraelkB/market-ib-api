@@ -4,14 +4,20 @@ import csv
 from calculate_bollinger_bands import *
 
 ib = IB()
-csv_file = "C:/Users/Israel/PycharmProjects/learning/report/nvda_bars.csv"
 
 # # live trade conaction
 # ib.connect(settings.host, settings.port, clientId=settings.client_id)
 # paper connection
 ib.connect(settings.host, settings.demo_port, clientId=settings.client_id)
 
-stock = Stock("NVDA", "SMART", "USD")
+stock_name = input("Enter stock name: ")
+
+stock = Stock(stock_name, "SMART", "USD")
+
+if stock is None:
+    raise ValueError("Stock name not found")
+
+csv_file = f"C:/Users/Israel/PycharmProjects/market ib api/report/{stock_name}_bars.csv"
 
 with open(csv_file, mode="w", newline='', encoding='utf-8') as file:
     writer = csv.writer(file)
@@ -50,4 +56,4 @@ with open(csv_file, mode="w", newline='', encoding='utf-8') as file:
                 row['upper_3σ'], row['lower_3σ']
             ])
 
-print("✅ סיום. כל הנתונים נשמרו בהצלחה בקובץ nvda_bars.csv")
+print(f"✅ סיום. כל הנתונים נשמרו בהצלחה בקובץ {stock_name}_bars.csv")
