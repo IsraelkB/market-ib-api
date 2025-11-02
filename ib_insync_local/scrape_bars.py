@@ -1,6 +1,5 @@
 from ib_insync import *
 from config import settings
-import time
 import csv
 from datetime import datetime, timedelta
 

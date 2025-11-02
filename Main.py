@@ -1,66 +1,39 @@
-from fastapi import FastAPI
-import logging
-from ib_insync.config import settings
+import os
+import sys
+from get_statistic.bb_strategy_backtester_for_file import run_backtest
+from get_statistic.calc_ratio import run_calc_ratio
+from ib_insync_local.ib_insync_test import run_ib_test
+from utills.input_utils import collect_bb_settings, collect_stock_settings
 
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
-app = FastAPI()
+sys.path.append(os.path.dirname(__file__))
+stock_settings = collect_stock_settings()
+bb_settings = collect_bb_settings()
 
-# print the load of the env file
-print(settings.model_dump())
+csv_name = f"{stock_settings["stock_name"]}_period-{stock_settings["duration_time"]}_bars-{stock_settings["bar_size"]}"
+csv_file = f"C:/Users/Israel/PycharmProjects/market ib api/reports/{csv_name}.csv"
 
 
-@app.get("/")
-def read_root():
-    error = ""
-    if not settings.debug:
-        error += "debug dont exist in env file \n"
-    if not settings.database_url:
-        error += "database url dont exist in env file \n"
-    if not settings.secret_key:
-        error += "secret key dont exist in env file \n"
-    return {
-        "errors": "no errors occurs" if error == "" else error,
-        "debug": settings.debug,
-        "database_url": settings.database_url,
-        "secret_key": settings.database_url
-    }
+try:
+    report_path = run_ib_test(stock_settings, csv_file)
+    print(f"✅ IB test and data collection finished. Report saved to: {report_path}")
+except Exception as e:
+    print(f"❌ Error during IB test: {e}")
+    exit()
 
-# @app.get("/")
-# async def root():
-#     async with httpx.AsyncClient() as client:
-#         users = (await client.get("https://jsonplaceholder.typicode.com/users")).json()
-#         posts = (await client.get("https://jsonplaceholder.typicode.com/posts")).json()
-#         comments = (await client.get("https://jsonplaceholder.typicode.com/comments")).json()
-#
-#         user_posts = defaultdict(list)
-#         user_comments = defaultdict(list)
-#
-#         for comment in comments:
-#             user_comments[comment["email"]].append(comment)
-#
-#         for post in posts:
-#             user_posts[post["userId"]].append(post)
-#
-#         user_max_posts = max(users, key=lambda u: len(user_posts[u["id"]]))["id"]
-#
-#         max_comments = 0
-#         email_max_comments = ""
-#         for email, values in user_comments.items():
-#             if len(values) > max_comments:
-#                 user_email = any(user["email"] == email for user in users)
-#             if user_email:
-#                 max_comments = len(values)
-#                 email_max_comments = email
-#             user_email = False
-#
-#         # user_max_comments = u["id"] for u in users if u["email"] == email_max_comments
-#
-#
-#         return {"max_posts": len(user_posts[user_max_posts]),
-#                 "max_comments": max_comments,
-#                 "user_max_posts_detail": users[user_max_posts],
-#                 # "user_max_comments_detail": user_max_comments,
-#                 "posts": user_posts[user_max_posts],
-#                 "comments": user_comments[email_max_comments]
-#                 }
+print("Starting backtesting strategy...")
+try:
+    analyze_path = run_backtest(bb_settings, csv_name, {stock_settings["stock_name"]}, file_path_to_process=report_path)
+    print(f"✅ Backtesting finished. Analysis saved to: {analyze_path}")
+except Exception as e:
+    print(f"❌ Error during backtesting: {e}")
+    exit()
+
+print("Starting R-ratio calculation...")
+try:
+    ratio_path = run_calc_ratio(bb_settings, file_path_to_process=analyze_path)
+    print(f"✅ Ratio calculation finished. Ratio data saved to: {ratio_path}")
+except Exception as e:
+    print(f"❌ Error during ratio calculation: {e}")
+    exit()
+
+print("\n--- All steps completed successfully! ---")

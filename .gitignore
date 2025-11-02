@@ -9,3 +9,5 @@ analyze/*
 analyze_data.xlsx
 report_files_analyzed/*
 report_files_analyzed
+archived/*
+archived
