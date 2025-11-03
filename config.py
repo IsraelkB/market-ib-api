@@ -8,6 +8,6 @@ class Settings(BaseSettings):
     client_id: Optional[int] = None
 
     class Config:
-        env_file = "ib_insync_local/.env"
+        env_file = ".env"
 
 settings = Settings()

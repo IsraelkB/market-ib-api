@@ -4,6 +4,7 @@ import csv
 import os
 from config import settings
 from ib_insync_local.calculate_bollinger_bands import calculate_bollinger_bands
+from ib_insync_local.calculate_ma_100 import ma_100
 
 
 def run_ib_test(stock_settings, csv_file):
@@ -28,7 +29,7 @@ def run_ib_test(stock_settings, csv_file):
         writer = csv.writer(file)
         writer.writerow(["date", "open", "high", "low", "close", "volume",
                          "middle_band", "upper_1σ", "lower_1σ","upper_2σ", "lower_2σ",
-                         "upper_3σ", "lower_3σ"])
+                         "upper_3σ", "lower_3σ", "MA_100"])
 
         bars = ib.reqHistoricalData(
                 stock,
@@ -45,6 +46,7 @@ def run_ib_test(stock_settings, csv_file):
             # df_pandas = util.df(bars)
 
             calculate_bollinger_bands(df)
+            ma_100(df)
             # calculate_bollinger_bands_pandas(df_pandas)
 
             for _, row in df.iterrows():
@@ -58,7 +60,8 @@ def run_ib_test(stock_settings, csv_file):
                     row['middle_band'],
                     row['upper_1σ'], row['lower_1σ'],
                     row['upper_2σ'], row['lower_2σ'],
-                    row['upper_3σ'], row['lower_3σ']
+                    row['upper_3σ'], row['lower_3σ'],
+                    row['MA_100']
                 ])
         if ib.isConnected():
             ib.disconnect()

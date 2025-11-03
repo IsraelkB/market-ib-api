@@ -95,7 +95,7 @@ def scan_for_entry_signal(rows, row_number, stp_loss, stock_name, indicate_line)
     return None
 
 
-def run_backtest(bb_settings,csv_name, stock_name, file_path_to_process):
+def run_backtest(bb_settings,csv_name, stock_name, root_path, file_path_to_process):
     """
     Runs the Bollinger Band backtesting strategy.
     """
@@ -116,7 +116,7 @@ def run_backtest(bb_settings,csv_name, stock_name, file_path_to_process):
 
     # ... (Rest of the original script's logic starts here)
 
-    analyze_csv = f"C:/Users/Israel/PycharmProjects/market ib api/analyze/{csv_name}_backtest_bb_{sigma_suffix}.csv"
+    analyze_csv = f"{root_path}/analyze/{csv_name}_backtest_bb_{sigma_suffix}.csv"
     try:
         df = pd.read_csv(file_path_to_process, parse_dates=['date'])
         stock_name = os.path.basename(file_path_to_process).split('_bars')[0]

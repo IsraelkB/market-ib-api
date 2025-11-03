@@ -1,9 +1,9 @@
 import os
 import pandas as pd
 
-def run_calc_ratio(settings, file_path_to_process):
+def run_calc_ratio(settings, root_path, file_path_to_process):
     # note = collect_user_settings("stop loss", "percentage for entry", "time to delay after unsuccessful trade", "mult σ, ")
-    ratio_file_dir = f"C:/Users/Israel/PycharmProjects/market ib api/analyze/success_rate/rate.csv"
+    ratio_file_dir = f"{root_path}/analyze/success_rate/rate.csv"
     R_ratio = [1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0, 2.1, 2.2, 2.3, 2.4, 2.5]
     ratio_csv_data = []
     bb_settings = {}

@@ -49,6 +49,7 @@ Uses **Pydantic BaseSettings** to load environment variables:
 from pydantic_settings import BaseSettings
 from typing import Optional
 
+
 class Settings(BaseSettings):
     demo_port: int
     port: int
@@ -56,7 +57,8 @@ class Settings(BaseSettings):
     client_id: Optional[int] = None
 
     class Config:
-        env_file = ".env"
+        env_file = "../.env"
+
 
 settings = Settings()
 ```
