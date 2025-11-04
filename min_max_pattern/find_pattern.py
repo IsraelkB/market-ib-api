@@ -5,8 +5,9 @@ from config import settings
 import pandas as pd
 from min_max_pattern.find_double import find_double
 
-bar_size = "2 min"
-duration_time = "600 S" # 10 minutes
+
+bar_size = "2 mins"
+duration_time = "2 D" # 600 S - 10 minutes
 end_data_time = ""
 stock_watch_list = ["etsy", "smr", "asts", "qubt", "rklb", "upst", "oklo",
                     "rddt", "alab", "rgti", "rblx", "iren", "mp", "rcat", "qbts",
@@ -36,24 +37,23 @@ for stock in stock_watch_list:
         useRTH=True,
     )
 
-    df = util.df(bars)
-    past_data = pd.read_csv(csv_file)
-    file_data = {os.path.basename(csv_file): df.to_dict('records')}
-    df.update(file_data)
+    df_new = util.df(bars)
 
-    is_double_bottom = find_double(df[-40:], True)
-    is_double_top = find_double(df[-40:], False)
-
-    if is_double_bottom and is_double_top:
-        continue
-
-    elif is_double_bottom:
-        print(f"{stock} is double bottom")
-
-    elif is_double_top:
-        print(f"{stock} is double top")
-
+    if os.path.exists(csv_file):
+        past_data = pd.read_csv(csv_file)
+        df_combined = pd.concat([past_data, df_new]).drop_duplicates(subset=["date"], keep="last")
     else:
-        continue
+        df_combined = df_new
+
+    is_double_bottom = find_double(df_combined[-40:], True)
+    is_double_top = find_double(df_combined[-40:], False)
+
+    if is_double_bottom[1] is not None:
+        print(f"{stock} has double bottom, in the time range: {is_double_bottom}")
+
+    if is_double_top[1] is not None:
+        print(f"{stock} has double top, in the time range: {is_double_top}")
 
 
+    df_combined = df_combined.tail(1000)
+    df_combined.to_csv(csv_file, index=False)

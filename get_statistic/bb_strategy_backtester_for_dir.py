@@ -2,7 +2,7 @@ import csv
 import os
 from utills.get_all_files import get_all_files
 from utills.input_utils import get_validated_float, get_validated_int
-from utills.time import return_duration_in_minutes
+from utills.time import duration_in_minutes
 
 sigma_multiplier = get_validated_int("please insert the mult σ you want\n", 1, 3)
 stop_loss_mode = get_validated_int("please insert the number of stp loss policy you want: 0- min/max, 1- candle\n", 0, 1)
@@ -105,7 +105,7 @@ for key, value in list_of_dfs.items():
         row = value[i]
         upper_string = f"upper_{sigma_suffix}"
         lower_string = f"lower_{sigma_suffix}"
-        if last_loss_time is None or return_duration_in_minutes(last_loss_time, row["date"]) >= min_delay_after_loss:
+        if last_loss_time is None or duration_in_minutes(last_loss_time, row["date"]) >= min_delay_after_loss:
             percent_ok = abs(row["close"] - row[lower_string]) >= row["close"] * min_bb_break_percent
             if row["open"] < row[upper_string] < row["close"] and i + 1 < len(value) and percent_ok:
                 exit_row = scan_for_entry_signal(value, i + 1, row["high"], key, upper_string)

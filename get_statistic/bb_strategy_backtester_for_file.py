@@ -1,7 +1,7 @@
 import csv
 import os
 import pandas as pd
-from utills.time import return_duration_in_minutes
+from utills.time import duration_in_minutes
 
 # Define global lists/variables or make them part of the function scope if they need to be reset
 trade_results_list = []
@@ -14,8 +14,7 @@ sigma_suffix = None
 
 def record_trade_result(entry_time, entrance_fee, stp_loss, stock_name, exit_time, exit_fee, max_profit_price, bb_band_trend):
     global trade_results_list, sigma_suffix
-    duration = exit_time - entry_time
-    duration_minutes = duration.total_seconds() / 60
+    duration_minutes = duration_in_minutes(exit_time, entry_time)
     order_type = "SHORT" if stp_loss - entrance_fee > 0 else "LONG"
     trade_risk_units = abs(entrance_fee - stp_loss)
     win_lose_ratio = 1 if trade_risk_units == 0 else abs(exit_fee - entrance_fee) / trade_risk_units
@@ -132,8 +131,8 @@ def run_backtest(bb_settings,csv_name, stock_name, root_path, file_path_to_proce
             row = value[i]
             upper_string = f"upper_{sigma_suffix}"
             lower_string = f"lower_{sigma_suffix}"
-            if last_loss_time is None or return_duration_in_minutes(last_loss_time,
-                                                                    row["date"]) >= min_delay_after_loss:
+            if last_loss_time is None or duration_in_minutes(last_loss_time,
+                                                             row["date"]) >= min_delay_after_loss:
                 percent_ok = abs(row["close"] - row[lower_string]) >= row["close"] * min_bb_break_percent
                 if row["open"] < row[upper_string] < row["close"] and i + 1 < len(value) and percent_ok:
                     exit_row = scan_for_entry_signal(value, i + 1, row["high"], stock_name, upper_string)
