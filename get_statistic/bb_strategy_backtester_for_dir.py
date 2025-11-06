@@ -1,6 +1,6 @@
 import csv
 import os
-from utills.get_all_files import get_all_files
+from utills.get_files import get_list_files
 from utills.input_utils import get_validated_float, get_validated_int
 from utills.time import duration_in_minutes
 
@@ -96,7 +96,7 @@ def scan_for_entry_signal(rows, row_number, stp_loss, stock_name, indicate_line)
 
 
 analyze_csv = f"C:/Users/Israel/PycharmProjects/market ib api/analyze/success_rate_bb_{sigma_suffix}.csv"
-list_of_dfs = get_all_files("reports", True)
+list_of_dfs = get_list_files("reports", True)
 
 for key, value in list_of_dfs.items():
     i = 1

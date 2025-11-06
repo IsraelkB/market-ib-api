@@ -118,7 +118,7 @@ pip install -r requirements.txt
 3. Run the main script to collect data:
 
 ```bash
-python ib_insync_test.py
+python prepare_stock_bb_data.py
 ```
 
 4. To scrape iteratively with study included:

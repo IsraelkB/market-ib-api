@@ -2,7 +2,7 @@ import os
 import sys
 from get_statistic.bb_strategy_backtester_for_file import run_backtest
 from get_statistic.calc_ratio import run_calc_ratio
-from ib_insync_local.ib_insync_test import run_ib_test
+from ib_insync_local.prepare_stock_bb_data import run_ib_test
 from utills.input_utils import collect_bb_settings, collect_stock_settings
 from pathlib import Path
 
