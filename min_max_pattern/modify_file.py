@@ -2,7 +2,7 @@ import pandas as pd
 from utills.time import duration_in_minutes
 
 def filter_by_time_and_extreme(df: pd.DataFrame, is_min: bool, value_cols,
-                               time_col: str = "date", threshold_minutes: int = 6) -> pd.DataFrame:
+                               time_col: str = "date", threshold_minutes: int = 2) -> pd.DataFrame:
     """
     Filters a DataFrame by keeping only one row (either the minimum or maximum)
     when multiple rows occur within a specified time window. The comparison can
@@ -46,7 +46,7 @@ def filter_by_time_and_extreme(df: pd.DataFrame, is_min: bool, value_cols,
         j = i + 1
         while j < len(df):
             next_row = df.iloc[j]
-            delta = duration_in_minutes( curr_row[time_col], next_row[time_col])
+            delta = duration_in_minutes(curr_row[time_col], next_row[time_col])
             if delta <= threshold_minutes:
                 group.append(next_row)
                 j += 1

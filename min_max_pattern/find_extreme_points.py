@@ -6,7 +6,7 @@ from min_max_pattern.min_max_detect import chack_two_candle_pattern
 from min_max_pattern.utils import init_min_max
 import pandas as pd
 
-def find_min(df):
+def find_min_points(df):
     start_time = df.iloc[0]["date"]
     end_time = df.iloc[-1]["date"]
     min_rows = []
@@ -19,7 +19,7 @@ def find_min(df):
 
 
 
-def find_max(df):
+def find_max_points(df):
     start_time = df.iloc[0]["date"]
     end_time = df.iloc[-1]["date"]
     max_rows = []

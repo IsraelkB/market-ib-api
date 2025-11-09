@@ -1,7 +1,7 @@
 import pandas as pd
 
-def duration_in_minutes(arly_time, Late_time):
-    duration = Late_time - arly_time
+def duration_in_minutes(arly_time, late_time):
+    duration = late_time - arly_time
     return duration.total_seconds() / 60
 
 def invert_gtc(df, time_columns):
