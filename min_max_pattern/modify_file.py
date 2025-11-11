@@ -29,7 +29,6 @@ def filter_by_time_and_extreme(df: pd.DataFrame, is_min: bool, value_cols,
     pd.DataFrame
         A filtered DataFrame containing only the selected (min or max) rows per time group.
     """
-
     df = df.copy()
     df[time_col] = pd.to_datetime(df[time_col], utc=True)
     df = df.sort_values(by=time_col).reset_index(drop=True)
@@ -52,6 +51,7 @@ def filter_by_time_and_extreme(df: pd.DataFrame, is_min: bool, value_cols,
                 j += 1
             else:
                 break
+            curr_row = next_row
 
         group_df = pd.DataFrame(group)
 

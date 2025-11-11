@@ -6,8 +6,9 @@ import pandas as pd
 
 from utills.time import duration_in_minutes, invert_gtc
 
-percentage_in_pattern = 0.005
-percentage_against = 0.005 # if is double top so the second top is above the first one, or in bottom is under the first one.
+percentage_in_pattern = 0.002
+percentage_against = 0.0015 # if is double top so the second top is above the first one, or in bottom is under the first one.
+until_date = 60
 
 
 def check_for_double_top(curr_max, max_val_to_check):
@@ -38,7 +39,7 @@ def find_double_top(df):
             curr_row = df.iloc[j]
             curr_max = max(curr_row["close"], curr_row["open"])
             duration = duration_in_minutes(curr_top["date"], curr_row["date"])
-            if duration < 10 or 40 < duration:
+            if duration < 10 or until_date < duration:
                 continue
             if check_for_double_top(curr_max, max_val_to_check):
                 double_top.append([curr_top, curr_row])
@@ -59,7 +60,7 @@ def find_double_bottom(df):
             curr_row = df.iloc[j]
             curr_min = min(curr_row["close"], curr_row["open"])
             duration = duration_in_minutes(curr_bottom["date"], curr_row["date"])
-            if duration < 10 or 40 < duration:
+            if duration < 10 or until_date < duration:
                 continue
             if check_for_double_bottom(curr_min, min_val_to_check):
                 double_bottom.append([curr_bottom, curr_row])
