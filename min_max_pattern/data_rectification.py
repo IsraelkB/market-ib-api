@@ -32,7 +32,7 @@ def modify_date(df, column, drop_duplicates):
 def connect_dfs(df_first, df_last, drop_columns):
     if not df_first.empty and not df_last.empty:
         df_combined = pd.concat([df_first, df_last])
-        df_combined = df_combined.drop_duplicates(subset=drop_columns, keep="last")
+        df_combined = df_combined if not drop_columns else df_combined.drop_duplicates(subset=drop_columns, keep="last")
     elif not df_first.empty:
         df_combined = df_first
     elif not df_last.empty:

@@ -1,11 +1,6 @@
-# the same price between 0.5%
-# time between 10 minute
-# there isn't an extreme point bigger/lower between double top/bottom
-from min_max_pattern.min_max_detect import is_cross
+from allerts.mail_allerts import send_email
 import pandas as pd
-
-from utills.time import duration_in_minutes, invert_gtc
-
+from utills.time import duration_in_minutes
 percentage_in_pattern = 0.002
 percentage_against = 0.0015 # if is double top so the second top is above the first one, or in bottom is under the first one.
 until_date = 60
