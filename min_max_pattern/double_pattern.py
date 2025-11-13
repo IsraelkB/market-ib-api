@@ -1,9 +1,12 @@
 from allerts.mail_allerts import send_email
 import pandas as pd
-from utills.time import duration_in_minutes
-percentage_in_pattern = 0.002
-percentage_against = 0.0015 # if is double top so the second top is above the first one, or in bottom is under the first one.
-until_date = 60
+from min_max_pattern.utils import read_yaml_file
+from utils_folder.time import duration_in_minutes
+
+cfg = read_yaml_file("min_max_pattern/config.yml")
+percentage_in_pattern = cfg["percentage_in_pattern"]
+percentage_against = cfg["percentage_against"]
+until_date = cfg["max_time_for_double"]
 
 
 def check_for_double_top(curr_max, max_val_to_check):

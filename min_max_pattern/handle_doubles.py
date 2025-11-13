@@ -1,21 +1,26 @@
-from min_max_pattern.data_rectification import connect_dfs, modify_date
+from AWS.S3.s3_files_menegment import open_file_to_read_s3
 from allerts.mail_allerts import send_email
 from min_max_pattern.double_pattern import find_double_top, find_double_bottom
 from min_max_pattern.utils import update_alert_file
-from utills.get_files import open_file_to_read
+# from utils_folder.get_files import open_file_to_read
 import pandas as pd
+from utils_folder.time import invert_gtc
+
+# TODO vwap mention in the DT/DB
 
 def detect_for_doubles(df_min, df_max, stock_name):
     file_alert = f"reports/doubles/{stock_name}"
-    df_double_alerted = open_file_to_read(file_alert)
+    df_double_alerted = open_file_to_read_s3(file_alert)
+    # df_double_alerted = open_file_to_read(file_alert) # local
     double_top_list = find_double_top(df_max)
     double_bottom_list = find_double_bottom(df_min)
 
-    def build_message(stock_name, event_type, event_df):
-        date_early = event_df.loc[0, 'date_early']
-        date_late = event_df.loc[0, 'date_late']
+    def build_message(stock_str, event_type, curr_event):
+        invert_gtc(curr_event, ['date_early', 'date_late'])
+        date_early = curr_event.loc[0, 'date_early']
+        date_late = curr_event.loc[0, 'date_late']
         msg = (
-            f"📈 התראה עבור מניה: {stock_name}\n\n"
+            f"📈 התראה עבור מניה: {stock_str}\n\n"
             f"התרחש {event_type.upper()} בין הנרות בתאריכים הבאים:\n"
             f"{date_early} - {date_late}"
         )
@@ -37,7 +42,7 @@ def detect_for_doubles(df_min, df_max, stock_name):
                 (alerted_df['date_late'] == date_late)
         ).any()
 
-    def combine_events(double):
+    def combine_events(curr_double):
         early = event[0].rename(lambda col: f"{col}_early").to_frame().T.reset_index(drop=True)
         late = event[1].rename(lambda col: f"{col}_late").to_frame().T.reset_index(drop=True)
         combined = pd.concat([early, late], axis=1)
@@ -46,16 +51,16 @@ def detect_for_doubles(df_min, df_max, stock_name):
     for event in double_top_list:
         event_df = combine_events(event)
         if not is_event_already_alerted(event_df, df_double_alerted):
-            message = build_message(stock_name, "Double Top", event_df)
-            print(message)
-            # send_email(f"{stock_name} alert - DOUBLE TOP",message)
+            message = build_message(stock_name, "DT", event_df)
+            # print(message)
+            send_email(f"{stock_name} - DT",message)
             df_double_alerted = pd.concat([df_double_alerted, event_df], ignore_index=True)
 
     for event in double_bottom_list:
         event_df = combine_events(event)
         if not is_event_already_alerted(event_df, df_double_alerted):
-            message = build_message(stock_name, "Double Bottom", event_df)
-            print(message)
-            # send_email(f"{stock_name} alert - DOUBLE BOTTOM", message)
+            message = build_message(stock_name, "DB", event_df)
+            # print(message)
+            send_email(f"{stock_name} - DB", message)
             df_double_alerted = pd.concat([df_double_alerted, event_df], ignore_index=True)
     update_alert_file(df_double_alerted, file_alert)

@@ -1,9 +1,9 @@
-from pathlib import Path
 from pydantic import ConfigDict
 from pydantic_settings import BaseSettings
 from typing import Optional
+from utils_folder.get_path import get_path
 
-BASE_DIR = Path(__file__).resolve().parent
+BASE_DIR = get_path()
 ENV_PATH = BASE_DIR / ".env"
 
 class IBKRSettings(BaseSettings):
@@ -49,7 +49,19 @@ class JacWhatsappSettings(BaseSettings):
         extra="ignore"
     )
 
+class AWSCredentialsSettings(BaseSettings):
+    bucket_name: str
+    aws_access_key_id: str
+    aws_secret_access_key: str
+    region: str
+    model_config = ConfigDict(
+        env_file=ENV_PATH,
+        env_file_encoding="utf-8",
+        extra="ignore"
+    )
+
 settings = IBKRSettings()
 google_settings = GoogleSettings()
 israel_whatsapp_settings = IsraelWhatsappSettings()
 jac_whatsapp_settings = JacWhatsappSettings()
+aws_credentials_settings = AWSCredentialsSettings()

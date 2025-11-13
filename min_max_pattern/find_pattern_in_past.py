@@ -1,18 +1,18 @@
 import pandas as pd
 from ib_insync_local.get_stock_data import get_stock_data
-from min_max_pattern.data_rectification import create_df_min, create_df_max, modify_date, connect_dfs
+from min_max_pattern.data_rectification_methods import create_df_min, create_df_max, modify_date, connect_dfss
 from min_max_pattern.double_pattern import find_double_bottom, find_double_top
 from min_max_pattern.find_extreme_points import find_min_points, find_max_points
-from utills.get_files import open_file_to_read, open_file_to_write
-from utills.time import invert_gtc
+from utils_folder.get_files import open_file_to_read, open_file_to_write
+from utils_folder.time import invert_gtc
 
 bar_size = "2 mins"
 duration_time = "1 D" # 600 S - 10 minutes
-end_data_time = "20251107 23:40:00" # yyyyMMdd HH:mm:ss - 20251105 23:40:00
-stock_watch_list = ["smr"] # test
-# stock_watch_list = ["etsy", "smr", "asts", "qubt", "rklb", "upst", "oklo",
-#                     "rddt", "alab", "rgti", "rblx", "iren", "mp", "rcat", "qbts",
-#                     "clsk", "nne", "vktx", "enph", "crcl", "sndk", "nbis", "crwv", "baba"]
+end_data_time = "" # yyyyMMdd HH:mm:ss - 20251105 23:40:00
+# stock_watch_list = ["smr"] # test
+stock_watch_list = ["etsy", "smr", "asts", "qubt", "rklb", "upst", "oklo",
+                    "rddt", "alab", "rgti", "rblx", "iren", "mp", "rcat", "qbts",
+                    "clsk", "nne", "vktx", "enph", "crcl", "sndk", "nbis", "crwv", "baba"]
 
 
 for stock in stock_watch_list:
@@ -49,9 +49,9 @@ for stock in stock_watch_list:
         i += step
 
     df_min, df_max =  create_df_min(min_candle), create_df_max(max_candle)
-    df_minmax_new = connect_dfs(df_min, df_max,["date", "type"])
+    df_minmax_new = connect_dfss(df_min, df_max, ["date", "type"])
 
-    df_minmax_combined = connect_dfs(df_minmax_past, df_minmax_new,["date", "type"])
+    df_minmax_combined = connect_dfss(df_minmax_past, df_minmax_new, ["date", "type"])
 
     df_minmax_combined = modify_date(df_minmax_combined, ["date", "start_date", "end_date"], ["date", "type"])
 

@@ -1,5 +1,5 @@
 import pandas as pd
-from utills.time import duration_in_minutes
+from utils_folder.time import duration_in_minutes
 
 def filter_by_time_and_extreme(df: pd.DataFrame, is_min: bool, value_cols,
                                time_col: str = "date", threshold_minutes: int = 2) -> pd.DataFrame:

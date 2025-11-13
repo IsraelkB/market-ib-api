@@ -1,4 +1,0 @@
-ib_insync
-pandas
-ta
-pydantic-settings

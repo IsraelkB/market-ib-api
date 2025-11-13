@@ -1,5 +1,5 @@
 import pandas as pd
-from utills.get_files import open_file_to_read, open_file_to_write
+from utils_folder.get_files import open_file_to_read, open_file_to_write
 
 relative_path = "manage_stock_with_intrest/data"
 csv_files = ["deals.csv", "stock_list.csv"]

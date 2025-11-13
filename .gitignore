@@ -1,5 +1,5 @@
 .env
-.env
+*/.env
 .idea/
 __pycache__/
 reports/*
@@ -13,3 +13,6 @@ archived/*
 archived
 manage_stock_with_intrest/data/*
 manage_stock_with_intrest/data
+main.spec
+dist
+dist/*
