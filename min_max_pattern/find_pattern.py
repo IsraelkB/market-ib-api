@@ -7,7 +7,7 @@ from min_max_pattern.utils import update_candles_file, update_min_max_file, read
 
 
 def min_max():
-    cfg = read_yaml_file("min_max_pattern/config.yml")
+    cfg = read_yaml_file("config.yml")
     bar_size = "2 mins"
     duration_time = cfg["candles_to_get"] # 600 S - 10 minutes
     end_data_time = "" # yyyyMMdd HH:mm:ss - 20251105 23:40:00

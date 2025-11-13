@@ -2,20 +2,31 @@ from AWS.S3.s3_files_menegment import update_file_s3, open_file_to_read_s3
 from min_max_pattern.data_rectification_methods import connect_dfss, modify_date
 # from utils_folder.get_files import open_file_to_read, open_file_to_write
 from typing import Any
+from utils_folder.get_path import get_path
+import sys
+from pathlib import Path
 import yaml
 
-from utils_folder.get_path import get_path
 
+def read_yaml_file(file_name: str):
+    """
+    Reads a YAML file either from the current working directory (when running normally)
+    or from the same folder as the executable (when running a PyInstaller EXE).
+    """
+    if getattr(sys, 'frozen', False):
+        base_path = Path(sys.executable).parent.parent
+    else:
+        base_path = Path(__file__).resolve().parent.parent
 
-def read_yaml_file(file_path: str) -> Any:
-    root_path = get_path()
-    file_path = root_path / file_path
+    file_path = base_path / file_name
+
     if not file_path.exists():
         raise FileNotFoundError(f"YAML file not found: {file_path}")
 
     with file_path.open("r", encoding="utf-8") as f:
         data = yaml.safe_load(f)
     return data
+
 
 if __name__ == "__main__":
     try:
