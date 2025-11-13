@@ -30,7 +30,7 @@ def read_yaml_file(file_name: str):
 
 if __name__ == "__main__":
     try:
-        cfg = read_yaml_file("min_max_pattern/config.yml")
+        cfg = read_yaml_file("min_max_pattern/config_doubles.yml")
         print("Loaded YAML:", cfg)
     except FileNotFoundError as e:
         print("Error:", e)

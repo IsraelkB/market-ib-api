@@ -3,7 +3,7 @@ import pandas as pd
 from min_max_pattern.utils import read_yaml_file
 from utils_folder.time import duration_in_minutes
 
-cfg = read_yaml_file("config.yml")
+cfg = read_yaml_file("config_doubles.yml")
 percentage_in_pattern = cfg["percentage_in_pattern"]
 percentage_against = cfg["percentage_against"]
 until_date = cfg["max_time_for_double"]
