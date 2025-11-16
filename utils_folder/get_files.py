@@ -2,7 +2,6 @@ import glob
 import os
 from collections import defaultdict
 import pandas as pd
-from pathlib import Path
 from utils_folder.get_path import get_base_path
 
 
@@ -23,6 +22,12 @@ def get_list_files(path, need_convert_date):
             print(f"Error opening file {filename}: {e}")
 
     return list_of_dfs
+
+
+def get_local_stock_list(folder):
+    files = os.listdir(folder)
+    return [f for f in files if not f.startswith(".")]
+
 
 
 def open_file_to_read(relative_path):

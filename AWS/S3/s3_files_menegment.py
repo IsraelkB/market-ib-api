@@ -7,6 +7,26 @@ from config import aws_credentials_settings
 bucket_name = aws_credentials_settings.bucket_name
 s3 = create_s3_client()
 
+def load_all_data_from_s3_once(prefix):
+    """
+    loaded all files from prefix once (for example: reports/min_max/).
+    return dict: { 'AAPL': df, 'TSLA': df, ... }
+    """
+    response = s3.list_objects_v2(Bucket=bucket_name, Prefix=prefix)
+    result = {}
+
+    for obj in response.get("Contents", []):
+        key = obj["Key"]
+
+        stock = key.split("/")[-1]
+
+        file_data = s3.get_object(Bucket=bucket_name, Key=key)["Body"].read().decode("utf-8")
+        df = pd.read_csv(StringIO(file_data))
+
+        result[stock] = df
+
+    return result
+
 
 def open_file_to_read_s3(file_path: str) -> pd.DataFrame:
     """

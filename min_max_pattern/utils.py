@@ -1,10 +1,6 @@
-from AWS.S3.s3_files_menegment import update_file_s3, open_file_to_read_s3
 from min_max_pattern.data_rectification_methods import connect_dfss, modify_date
 from utils_folder.get_files import open_file_to_read, open_file_to_write
-from typing import Any
 from utils_folder.get_path import get_base_path
-import sys
-from pathlib import Path
 import yaml
 
 
