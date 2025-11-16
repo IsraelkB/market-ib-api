@@ -1,7 +1,10 @@
+#stock_list:
+#  [ "etsy", "smr", "asts", "qubt", "rklb", "upst", "oklo",
+#    "rddt", "alab", "rgti", "rblx", "iren", "mp", "rcat", "qbts",
+#    "clsk", "nne", "vktx", "enph", "crcl", "sndk", "nbis", "crwv", "baba"]
+
 stock_list:
-  [ "etsy", "smr", "asts", "qubt", "rklb", "upst", "oklo",
-    "rddt", "alab", "rgti", "rblx", "iren", "mp", "rcat", "qbts",
-    "clsk", "nne", "vktx", "enph", "crcl", "sndk", "nbis", "crwv", "baba"]
+  [ "smr" ]
 
 # how much time take between the calls to the next time
 time_to_sleep:

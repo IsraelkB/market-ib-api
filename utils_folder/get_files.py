@@ -3,7 +3,7 @@ import os
 from collections import defaultdict
 import pandas as pd
 from pathlib import Path
-from utils_folder.get_path import get_path
+from utils_folder.get_path import get_base_path
 
 
 def get_list_files(path, need_convert_date):
@@ -26,8 +26,7 @@ def get_list_files(path, need_convert_date):
 
 
 def open_file_to_read(relative_path):
-    current_dir = get_path()
-    root_path = current_dir.parent
+    root_path = get_base_path()
 
     csv_file = f"{root_path}/{relative_path}.csv"
 
@@ -40,8 +39,9 @@ def open_file_to_read(relative_path):
     return df_combined
 
 def open_file_to_write(relative_path, df):
-    current_dir = get_path()
-    root_path = current_dir.parent
+    root_path = get_base_path()
+
     csv_file = f"{root_path}/{relative_path}.csv"
+    print(f"Opened successfully: {csv_file}")
     os.makedirs(os.path.dirname(csv_file), exist_ok=True)
     df.to_csv(csv_file, index=False)

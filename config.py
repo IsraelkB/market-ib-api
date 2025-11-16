@@ -1,9 +1,9 @@
 from pydantic import ConfigDict
 from pydantic_settings import BaseSettings
 from typing import Optional
-from utils_folder.get_path import get_path
+from utils_folder.get_path import get_base_path
 
-BASE_DIR = get_path()
+BASE_DIR = get_base_path()
 ENV_PATH = BASE_DIR / ".env"
 
 class IBKRSettings(BaseSettings):

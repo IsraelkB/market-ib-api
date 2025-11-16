@@ -1,8 +1,8 @@
 from AWS.S3.s3_files_menegment import update_file_s3, open_file_to_read_s3
 from min_max_pattern.data_rectification_methods import connect_dfss, modify_date
-# from utils_folder.get_files import open_file_to_read, open_file_to_write
+from utils_folder.get_files import open_file_to_read, open_file_to_write
 from typing import Any
-from utils_folder.get_path import get_path
+from utils_folder.get_path import get_base_path
 import sys
 from pathlib import Path
 import yaml
@@ -13,10 +13,7 @@ def read_yaml_file(file_name: str):
     Reads a YAML file either from the current working directory (when running normally)
     or from the same folder as the executable (when running a PyInstaller EXE).
     """
-    if getattr(sys, 'frozen', False):
-        base_path = Path(sys.executable).parent.parent
-    else:
-        base_path = Path(__file__).resolve().parent.parent
+    base_path = get_base_path()
 
     file_path = base_path / file_name
 
@@ -53,28 +50,23 @@ def init_min_max(row, start, end):
 
 def update_candles_file(stock, df_new):
     stock_data_path = f"reports/daily_activity/{stock}"
-    past_data = open_file_to_read_s3(stock_data_path)
-    # past_data = open_file_to_read(stock_data_path) # local
+    past_data = open_file_to_read(stock_data_path) # local
     stock_data = connect_dfss(past_data, df_new, ["date"])
     stock_data = stock_data.tail(1000)
     stock_data = modify_date(stock_data, ["date"], ["date"])
-    update_file_s3(stock_data, stock_data_path)
-    # open_file_to_write(stock_data_path, stock_data) # local
+    open_file_to_write(stock_data_path, stock_data) # local
 
 def update_min_max_file(stock, df_min, df_max):
     min_max_file_path = f"reports/min_max/{stock}"
-    df_minmax_past = open_file_to_read_s3(min_max_file_path)
-    # df_minmax_past = open_file_to_read(min_max_file_path) # local
+    df_minmax_past = open_file_to_read(min_max_file_path) # local
     df_minmax_new = connect_dfss(df_min, df_max, ["date", "type"])
     df_minmax_combined = connect_dfss(df_minmax_past, df_minmax_new, ["date", "type"])
+    df_minmax_combined = df_minmax_combined.tail(300)
     df_minmax_combined = modify_date(df_minmax_combined, ["date", "start_date", "end_date"], ["date", "type"])
-    update_file_s3(df_minmax_combined, min_max_file_path)
-    # open_file_to_write(min_max_file_path,df_minmax_combined) # local
-    print(f"Updated min/max file for {stock} → {min_max_file_path} ({len(df_minmax_combined)} total rows)")
+    open_file_to_write(min_max_file_path,df_minmax_combined) # local
 
 def update_alert_file(df_double_alert, file_alert):
     if df_double_alert.empty:
         return
     df_double_alert = modify_date(df_double_alert, ["date_early", "date_late"], ["date_early", "date_late"])
-    update_file_s3(df_double_alert, file_alert)
-    # open_file_to_write(file_alert,df_double_alert) # local
+    open_file_to_write(file_alert,df_double_alert) # local

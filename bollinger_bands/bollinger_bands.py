@@ -4,14 +4,14 @@ from get_statistic.bb_strategy_backtester_for_file import run_backtest
 from get_statistic.calc_ratio import run_calc_ratio
 from ib_insync_local.prepare_stock_bb_data import run_ib_test
 from utils_folder.input_utils import collect_bb_settings, collect_stock_settings
-from utils_folder.get_path import get_path
+from utils_folder.get_path import get_base_path
 
 def bollinger_bands():
     sys.path.append(os.path.dirname(__file__))
     stock_settings = collect_stock_settings()
     bb_settings = collect_bb_settings()
 
-    root_path = get_path()
+    root_path = get_base_path()
     csv_name = f"{stock_settings["stock_name"]}_period-{stock_settings["duration_time"]}_bars-{stock_settings["bar_size"]}"
     csv_file = f"{root_path}/reports/{csv_name}.csv"
     # csv_file = Path(__file__).parent / "reports" / f"{stock_settings["stock_name"]}" / f"{csv_name}.csv"

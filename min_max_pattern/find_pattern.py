@@ -3,6 +3,7 @@ from ib_insync_local.get_stock_data import get_stock_data
 from min_max_pattern.data_rectification_methods import create_df_min, create_df_max
 from min_max_pattern.find_extreme_points import find_min_points, find_max_points
 from min_max_pattern.handle_doubles import detect_for_doubles
+from min_max_pattern.sync_local_cloud_data import connect_local_cloud_data
 from min_max_pattern.utils import update_candles_file, update_min_max_file, read_yaml_file
 
 
@@ -11,7 +12,7 @@ def min_max():
     bar_size = "2 mins"
     duration_time = cfg["candles_to_get"] # 600 S - 10 minutes
     end_data_time = "" # yyyyMMdd HH:mm:ss - 20251105 23:40:00
-
+    # connect_local_cloud_data(cfg["stock_list"])
 
     while True:
         for stock in cfg["stock_list"]:
@@ -24,11 +25,6 @@ def min_max():
 
             min_candle, max_candle =  find_min_points(df_new), find_max_points(df_new)
             df_min, df_max =  create_df_min(min_candle), create_df_max(max_candle)
-
-            # TODO
-            #  bugs 1: fix loaded min_max files. - V
-            #  bugs 2: the last candles doesnt checks. - V
-            #  TODO connect to alert. - V
 
             detect_for_doubles(df_min, df_max, stock)
 
