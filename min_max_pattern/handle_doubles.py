@@ -56,15 +56,15 @@ def detect_for_doubles(df_min, df_max, stock_name):
         event_df = combine_events(event)
         if not is_event_already_alerted(event_df, df_double_alerted):
             message = build_message(event_df)
-            print(message)
-            # send_email(f"{stock_name} - DT",message)
+            # print(message)
+            send_email(f"{stock_name} - DT",message)
             df_double_alerted = pd.concat([df_double_alerted, event_df], ignore_index=True)
 
     for event in double_bottom_list:
         event_df = combine_events(event)
         if not is_event_already_alerted(event_df, df_double_alerted):
             message = build_message(event_df)
-            print(message)
-            # send_email(f"{stock_name} - DB", message)
+            # print(message)
+            send_email(f"{stock_name} - DB", message)
             df_double_alerted = pd.concat([df_double_alerted, event_df], ignore_index=True)
     update_alert_file(df_double_alerted, file_alert)
