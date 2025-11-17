@@ -17,7 +17,6 @@ def get_list_files(path, need_convert_date):
             if need_convert_date:
                 df['date'] = pd.to_datetime(df['date'])
             list_of_dfs[os.path.basename(filename)] = df.to_dict('records')
-            print(f"Opened successfully: {filename}")
         except Exception as e:
             print(f"Error opening file {filename}: {e}")
 
@@ -47,6 +46,5 @@ def open_file_to_write(relative_path, df):
     root_path = get_base_path()
 
     csv_file = f"{root_path}/{relative_path}.csv"
-    print(f"Opened successfully: {csv_file}")
     os.makedirs(os.path.dirname(csv_file), exist_ok=True)
     df.to_csv(csv_file, index=False)

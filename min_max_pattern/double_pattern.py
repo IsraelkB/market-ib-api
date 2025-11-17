@@ -67,3 +67,45 @@ def find_double_bottom(df):
                 break
 
     return double_bottom
+
+
+def verify_double_top(double_top_list, df_candle):
+    new_list = []
+    for double in double_top_list:
+        latest_max = double[1]
+        j = duration_in_minutes(df_candle.iloc[0]["date"], latest_max["date"]) / 2
+        max_of_double = max(latest_max["close"], latest_max["open"])
+        is_double = True
+        j = int(j) + 1
+        while j < len(df_candle):
+            curr_row = df_candle.iloc[j]
+            curr_max = max(curr_row["close"], curr_row["open"])
+            if curr_max > max_of_double:
+                print(f"max: {curr_row["date"]} - {latest_max["date"]}:  {curr_max}, {max_of_double}")
+                is_double = False
+                break
+            j += 1
+        if is_double:
+            new_list.append(double)
+    return new_list
+
+
+def verify_double_bottom(double_bottom_list, df_candle):
+    new_list = []
+    for double in double_bottom_list:
+        latest_min = double[1]
+        j = duration_in_minutes(df_candle.iloc[0]["date"], latest_min["date"]) / 2
+        min_of_double = min(latest_min["close"], latest_min["open"])
+        is_double = True
+        j = int(j) + 1
+        while j < len(df_candle):
+            curr_row = df_candle.iloc[j]
+            curr_min = min(curr_row["close"], curr_row["open"])
+            if curr_min < min_of_double:
+                print(f"min: {curr_row["date"]} - {latest_min["date"]}:  {curr_min}, {min_of_double}")
+                is_double = False
+                break
+            j += 1
+        if is_double:
+            new_list.append(double)
+    return new_list

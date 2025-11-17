@@ -1,5 +1,5 @@
 from allerts.mail_allerts import send_email
-from min_max_pattern.double_pattern import find_double_top, find_double_bottom
+from min_max_pattern.double_pattern import find_double_top, find_double_bottom, verify_double_top, verify_double_bottom
 from min_max_pattern.utils import update_alert_file
 import pandas as pd
 
@@ -9,11 +9,13 @@ from utils_folder.time import invert_gtc
 # TODO vwap mention in the DT/DB
 # TODO chack if after double top/bottom there is high/low candle
 
-def detect_for_doubles(df_min, df_max, stock_name):
+def detect_for_doubles(df_min, df_max, stock_name, df_candle):
     file_alert = f"reports/doubles/{stock_name}"
     df_double_alerted = open_file_to_read(file_alert) # local
     double_top_list = find_double_top(df_max)
     double_bottom_list = find_double_bottom(df_min)
+    double_top_list = verify_double_top(double_top_list, df_candle)
+    double_bottom_list = verify_double_bottom(double_bottom_list, df_candle)
 
     def build_message(curr_event):
         invert_gtc(curr_event, ['date_early', 'date_late'])
@@ -56,15 +58,15 @@ def detect_for_doubles(df_min, df_max, stock_name):
         event_df = combine_events(event)
         if not is_event_already_alerted(event_df, df_double_alerted):
             message = build_message(event_df)
-            # print(message)
-            send_email(f"{stock_name} - DT",message)
+            print(message)
+            # send_email(f"{stock_name} - DT",message)
             df_double_alerted = pd.concat([df_double_alerted, event_df], ignore_index=True)
 
     for event in double_bottom_list:
         event_df = combine_events(event)
         if not is_event_already_alerted(event_df, df_double_alerted):
             message = build_message(event_df)
-            # print(message)
-            send_email(f"{stock_name} - DB", message)
+            print(message)
+            # send_email(f"{stock_name} - DB", message)
             df_double_alerted = pd.concat([df_double_alerted, event_df], ignore_index=True)
     update_alert_file(df_double_alerted, file_alert)

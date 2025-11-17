@@ -24,7 +24,7 @@ def min_max():
             min_candle, max_candle =  find_min_points(df_new), find_max_points(df_new)
             df_min, df_max =  create_df_min(min_candle), create_df_max(max_candle)
 
-            detect_for_doubles(df_min, df_max, stock)
+            detect_for_doubles(df_min, df_max, stock, df_new)
 
             update_min_max_file(stock, df_max, df_min)
 
