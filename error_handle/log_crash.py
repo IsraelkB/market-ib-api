@@ -4,6 +4,10 @@ from utils_folder.get_path import get_base_path
 
 
 def log_unhandled_exception(exc_type, exc_value, exc_traceback):
+    if issubclass(exc_type, KeyboardInterrupt):
+        print("Program interrupted by user (Ctrl+C). Exiting...")
+        return
+
     root_path = get_base_path()
     log_file = f"{root_path}/error_handle/crash.log"
     with open(log_file, "a") as f:

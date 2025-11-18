@@ -1311,6 +1311,11 @@
    'C:\\Program '
    'Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.13_3.13.2544.0_x64__qbz5n2kfra8p0\\Lib\\email\\utils.py',
    'PYMODULE'),
+  ('error_handle', '-', 'PYMODULE'),
+  ('error_handle.log_crash',
+   'C:\\Users\\Israel\\PycharmProjects\\market ib '
+   'api\\error_handle\\log_crash.py',
+   'PYMODULE'),
   ('eventkit',
    'C:\\Users\\Israel\\PycharmProjects\\market ib '
    'api\\.venv\\Lib\\site-packages\\eventkit\\__init__.py',
