@@ -13,3 +13,9 @@ def invert_gtc(df, time_columns):
         if col in df.columns:
             df[col] = pd.to_datetime(df[col], errors="coerce", utc=True)
             df[col] = df[col].dt.tz_convert("Asia/Jerusalem")
+
+
+def get_list_loc_by_time(early_time, latest_time, candle_duration):
+    return duration_in_minutes(early_time, latest_time) / candle_duration
+
+

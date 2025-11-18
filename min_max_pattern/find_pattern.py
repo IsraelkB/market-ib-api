@@ -14,6 +14,7 @@ def min_max():
 
     while True:
         for stock in cfg["stock_list"]:
+            print(f"start processing double pattern for: {stock}")
             df_new = get_stock_data(stock, end_data_time, duration_time, bar_size)
             if df_new is None:
                 print(f"No data received for {stock}")
@@ -29,5 +30,5 @@ def min_max():
             update_min_max_file(stock, df_max, df_min)
 
         # adding functionality for running from user
-        print("✅ Completed one full cycle. Sleeping for 10 minutes...")
-        time.sleep(cfg["time_to_sleep"]) # השהיה של 10 דקות
+        print(f"✅ Completed one full cycle. Sleeping for {int(cfg["time_to_sleep"] / 60)} minutes...")
+        time.sleep(cfg["time_to_sleep"])
