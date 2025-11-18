@@ -16,3 +16,4 @@ manage_stock_with_intrest/data
 main.spec
 dist
 dist/*
+error_handle/crash.log

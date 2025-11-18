@@ -7,7 +7,8 @@ from utils_folder.get_files import open_file_to_read
 from utils_folder.time import invert_gtc
 
 # TODO vwap mention in the DT/DB
-# TODO chack if after double top/bottom there is high/low candle
+# TODO chack find the max close/open between double bottom and the min
+#  close/open between double top, and ask for hom to be under/above them
 
 def detect_for_doubles(df_min, df_max, stock_name, df_candle):
     file_alert = f"reports/doubles/{stock_name}"
