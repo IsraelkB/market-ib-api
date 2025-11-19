@@ -13,12 +13,22 @@ candles_to_get:
   "4800 S" # 60 S - 1 minutes
 
 # percentage_in_pattern - if is double top so the second top is under or the same price, or in bottom is above or the same price
-percentage_in_pattern:
-  0.002
+difference_small_in_pattern:
+  0.02
+
+# percentage_in_pattern - if is double top so the second top is under or the same price, or in bottom is above or the same price
+difference_large_in_pattern:
+  0.1
 
 # percentage_against - if is double top so the second top is above the first one, or in bottom is under the first one.
-percentage_against:
-  0.0015
+difference_small_against:
+  0.02
+
+difference_large_against:
+  0.1
+
+large:
+  100
 
 max_time_for_double:
   60 # 60 minutes

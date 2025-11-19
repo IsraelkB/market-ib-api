@@ -1,27 +1,37 @@
-from allerts.mail_allerts import send_email
 import pandas as pd
 from min_max_pattern.utils import read_yaml_file
-from utils_folder.time import duration_in_minutes, get_list_loc_by_time
+from utils_folder.time import duration_in_minutes
 
 cfg = read_yaml_file("config_doubles.yml")
-percentage_in_pattern = cfg["percentage_in_pattern"]
-percentage_against = cfg["percentage_against"]
+difference_small_in_pattern = cfg["difference_small_in_pattern"]
+difference_large_in_pattern = cfg["difference_large_in_pattern"]
+difference_small_against = cfg["difference_small_against"]
+difference_large_against = cfg["difference_large_against"]
+stock_size_indicator = cfg["large"]
 until_date = cfg["max_time_for_double"]
 candle_duration_minutes = 2
 
 def check_for_double_top(curr_max, max_val_to_check):
     difference = max_val_to_check - curr_max
-    if difference < 0 and -difference < percentage_against * curr_max:
+    if difference < 0 and max_val_to_check > stock_size_indicator and -difference < difference_large_in_pattern:
         return True
-    elif 0 <= difference < percentage_in_pattern * curr_max:
+    elif difference < 0 and max_val_to_check <= stock_size_indicator and -difference < difference_small_in_pattern:
+        return True
+    elif max_val_to_check <= stock_size_indicator and 0 <= difference < difference_small_against:
+        return True
+    elif max_val_to_check > stock_size_indicator and 0 <= difference < difference_large_against:
         return True
     return False
 
 def check_for_double_bottom(curr_min, min_val_to_check):
     difference = min_val_to_check - curr_min
-    if difference < 0 and -difference < percentage_in_pattern * curr_min:
+    if  min_val_to_check <= stock_size_indicator and difference < 0 and -difference < difference_small_in_pattern:
         return True
-    elif 0 <= difference < percentage_against * curr_min:
+    elif min_val_to_check <= stock_size_indicator and 0 <= difference < difference_small_against:
+        return True
+    if  min_val_to_check > stock_size_indicator and difference < 0 and -difference < difference_large_in_pattern:
+        return True
+    elif min_val_to_check > stock_size_indicator and 0 <= difference < difference_large_against:
         return True
     return False
 
@@ -128,7 +138,7 @@ def is_cross_double_candles(curr_double, df_candle, is_bottom):
     i = duration_in_minutes(df_candle.iloc[0]["date"], curr_double[0]["date"]) / candle_duration_minutes
     until = duration_in_minutes(df_candle.iloc[0]["date"], curr_double[1]["date"]) / candle_duration_minutes
     i = int(i) + 1
-    while i < until:
+    while i < until and i < len(df_candle):
         curr_row = df_candle.iloc[i]
         curr_min_max = get_min_max_point(curr_row["open"], curr_row["close"])
         if is_bottom and curr_min_max > min_max_point:

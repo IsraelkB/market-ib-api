@@ -3,8 +3,8 @@ import csv
 # from calculate_bollinger_bands import *
 import os
 from config import settings
-from ib_insync_local.calculate_bollinger_bands import calculate_bollinger_bands
-from ib_insync_local.calculate_ma_100 import ma_100
+from indecators.calculate_bollinger_bands import calculate_bollinger_bands
+from indecators.calculate_ma_100 import ma_100
 from ib_insync_local.get_stock_data import get_stock_data
 
 

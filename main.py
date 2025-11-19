@@ -1,6 +1,5 @@
 import sys
 from error_handle.log_crash import log_unhandled_exception
-
 sys.excepthook = log_unhandled_exception
 
 from min_max_pattern.find_pattern import min_max
