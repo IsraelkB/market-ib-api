@@ -7,6 +7,8 @@ def data_rectification_for_multiple_df(*dfs):
 
 
 def create_df_min(min_candle):
+    if not min_candle:
+        return pd.DataFrame()
     df_min =  pd.DataFrame(min_candle)
     df_min = filter_by_time_and_extreme(df_min, True, ["open","close"])
     df_min["type"] = "min"
@@ -14,6 +16,8 @@ def create_df_min(min_candle):
     return df_min
 
 def create_df_max(max_candle):
+    if not max_candle:
+        return pd.DataFrame()
     df_max =  pd.DataFrame(max_candle)
     df_max = filter_by_time_and_extreme(df_max, False, ["open","close"])
     df_max["type"] = "max"

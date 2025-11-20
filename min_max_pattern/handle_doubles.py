@@ -15,8 +15,10 @@ def detect_for_doubles(df_min, df_max, stock_name, df_candle):
     df_double_alerted = open_file_to_read(file_alert) # local
     double_top_list = find_double_top(df_max)
     double_bottom_list = find_double_bottom(df_min)
-    double_top_list = verify_double_top(double_top_list, df_candle)
-    double_bottom_list = verify_double_bottom(double_bottom_list, df_candle)
+    if double_top_list:
+        double_top_list = verify_double_top(double_top_list, df_candle)
+    if double_bottom_list:
+        double_bottom_list = verify_double_bottom(double_bottom_list, df_candle)
 
     def build_message(curr_event):
         invert_gtc(curr_event, ['date_early', 'date_late'])

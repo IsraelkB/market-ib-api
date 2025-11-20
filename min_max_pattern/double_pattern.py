@@ -37,6 +37,8 @@ def check_for_double_bottom(curr_min, min_val_to_check):
 
 
 def find_double_top(df):
+    if df is None or df.empty:
+        return []
     double_top = []
     df["date"] = pd.to_datetime(df["date"], utc=True)
     df = df.sort_values(by="date").reset_index(drop=True)
@@ -58,6 +60,8 @@ def find_double_top(df):
 
 
 def find_double_bottom(df):
+    if df is None or df.empty:
+        return []
     double_bottom = []
     df["date"] = pd.to_datetime(df["date"], utc=True)
     df = df.sort_values(by="date").reset_index(drop=True)

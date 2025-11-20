@@ -468,6 +468,23 @@
    'C:\\Program '
    'Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.13_3.13.2544.0_x64__qbz5n2kfra8p0\\Lib\\bisect.py',
    'PYMODULE'),
+  ('bollinger_bands', '-', 'PYMODULE'),
+  ('bollinger_bands.bb_strategy_backtester_for_file',
+   'C:\\Users\\Israel\\PycharmProjects\\market ib '
+   'api\\bollinger_bands\\bb_strategy_backtester_for_file.py',
+   'PYMODULE'),
+  ('bollinger_bands.bollinger_bands',
+   'C:\\Users\\Israel\\PycharmProjects\\market ib '
+   'api\\bollinger_bands\\bollinger_bands.py',
+   'PYMODULE'),
+  ('bollinger_bands.calc_ratio',
+   'C:\\Users\\Israel\\PycharmProjects\\market ib '
+   'api\\bollinger_bands\\calc_ratio.py',
+   'PYMODULE'),
+  ('bollinger_bands.prepare_stock_bb_data',
+   'C:\\Users\\Israel\\PycharmProjects\\market ib '
+   'api\\bollinger_bands\\prepare_stock_bb_data.py',
+   'PYMODULE'),
   ('boto3',
    'C:\\Users\\Israel\\PycharmProjects\\market ib '
    'api\\.venv\\Lib\\site-packages\\boto3\\__init__.py',
@@ -1788,6 +1805,15 @@
   ('importlib.util',
    'C:\\Program '
    'Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.13_3.13.2544.0_x64__qbz5n2kfra8p0\\Lib\\importlib\\util.py',
+   'PYMODULE'),
+  ('indecators', '-', 'PYMODULE'),
+  ('indecators.calculate_bollinger_bands',
+   'C:\\Users\\Israel\\PycharmProjects\\market ib '
+   'api\\indecators\\calculate_bollinger_bands.py',
+   'PYMODULE'),
+  ('indecators.calculate_ma_100',
+   'C:\\Users\\Israel\\PycharmProjects\\market ib '
+   'api\\indecators\\calculate_ma_100.py',
    'PYMODULE'),
   ('inspect',
    'C:\\Program '
@@ -5231,6 +5257,38 @@
    'C:\\Program '
    'Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.13_3.13.2544.0_x64__qbz5n2kfra8p0\\Lib\\sysconfig\\__init__.py',
    'PYMODULE'),
+  ('ta',
+   'C:\\Users\\Israel\\PycharmProjects\\market ib '
+   'api\\.venv\\Lib\\site-packages\\ta\\__init__.py',
+   'PYMODULE'),
+  ('ta.momentum',
+   'C:\\Users\\Israel\\PycharmProjects\\market ib '
+   'api\\.venv\\Lib\\site-packages\\ta\\momentum.py',
+   'PYMODULE'),
+  ('ta.others',
+   'C:\\Users\\Israel\\PycharmProjects\\market ib '
+   'api\\.venv\\Lib\\site-packages\\ta\\others.py',
+   'PYMODULE'),
+  ('ta.trend',
+   'C:\\Users\\Israel\\PycharmProjects\\market ib '
+   'api\\.venv\\Lib\\site-packages\\ta\\trend.py',
+   'PYMODULE'),
+  ('ta.utils',
+   'C:\\Users\\Israel\\PycharmProjects\\market ib '
+   'api\\.venv\\Lib\\site-packages\\ta\\utils.py',
+   'PYMODULE'),
+  ('ta.volatility',
+   'C:\\Users\\Israel\\PycharmProjects\\market ib '
+   'api\\.venv\\Lib\\site-packages\\ta\\volatility.py',
+   'PYMODULE'),
+  ('ta.volume',
+   'C:\\Users\\Israel\\PycharmProjects\\market ib '
+   'api\\.venv\\Lib\\site-packages\\ta\\volume.py',
+   'PYMODULE'),
+  ('ta.wrapper',
+   'C:\\Users\\Israel\\PycharmProjects\\market ib '
+   'api\\.venv\\Lib\\site-packages\\ta\\wrapper.py',
+   'PYMODULE'),
   ('tarfile',
    'C:\\Program '
    'Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.13_3.13.2544.0_x64__qbz5n2kfra8p0\\Lib\\tarfile.py',
@@ -5596,6 +5654,10 @@
    'api\\.venv\\Lib\\site-packages\\urllib3\\util\\wait.py',
    'PYMODULE'),
   ('utils_folder', '-', 'PYMODULE'),
+  ('utils_folder.get_data_config',
+   'C:\\Users\\Israel\\PycharmProjects\\market ib '
+   'api\\utils_folder\\get_data_config.py',
+   'PYMODULE'),
   ('utils_folder.get_files',
    'C:\\Users\\Israel\\PycharmProjects\\market ib '
    'api\\utils_folder\\get_files.py',

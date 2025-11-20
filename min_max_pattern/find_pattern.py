@@ -23,6 +23,7 @@ def min_max():
 
             update_candles_file(stock, df_new)
 
+
             min_candle, max_candle =  find_min_points(df_new), find_max_points(df_new)
             df_min, df_max =  create_df_min(min_candle), create_df_max(max_candle)
 
