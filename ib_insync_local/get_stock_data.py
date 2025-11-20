@@ -3,6 +3,9 @@ from config import settings
 
 ib = IB()
 
+# # live trade conaction
+# ib.connect(settings.host, settings.port, clientId=settings.client_id)
+# paper connection
 ib.connect(settings.host, settings.demo_port, clientId=settings.client_id)
 
 def get_stock_data(stock, end_data_time, duration_time, bar_size):

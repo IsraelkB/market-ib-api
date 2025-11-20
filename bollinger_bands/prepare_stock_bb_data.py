@@ -8,18 +8,7 @@ from indecators.calculate_ma_100 import ma_100
 from ib_insync_local.get_stock_data import get_stock_data
 
 
-def run_ib_test(stock_settings, csv_file):
-    ib = IB()
-
-    # # live trade conaction
-    # ib.connect(settings.host, settings.port, clientId=settings.client_id)
-    # paper connection
-    ib.connect(settings.host, settings.demo_port, clientId=settings.client_id)
-
-    stock = Stock(stock_settings["stock_name"], "SMART", "USD")
-
-    if stock is None:
-        raise ValueError("Stock name not found")
+def run_ib_test(stock_settings, csv_file, stock):
 
     os.makedirs(os.path.dirname(csv_file), exist_ok=True)
 
@@ -51,6 +40,5 @@ def run_ib_test(stock_settings, csv_file):
                 row['upper_3σ'], row['lower_3σ'],
                 row['MA_100']
             ])
-        if ib.isConnected():
-            ib.disconnect()
+
         return csv_file

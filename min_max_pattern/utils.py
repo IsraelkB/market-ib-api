@@ -1,34 +1,6 @@
 from min_max_pattern.data_rectification_methods import connect_dfss, modify_date
 from utils_folder.get_files import open_file_to_read, open_file_to_write
-from utils_folder.get_path import get_base_path
-import yaml
 
-
-def read_yaml_file(file_name: str):
-    """
-    Reads a YAML file either from the current working directory (when running normally)
-    or from the same folder as the executable (when running a PyInstaller EXE).
-    """
-    base_path = get_base_path()
-
-    file_path = base_path / file_name
-
-    if not file_path.exists():
-        raise FileNotFoundError(f"YAML file not found: {file_path}")
-
-    with file_path.open("r", encoding="utf-8") as f:
-        data = yaml.safe_load(f)
-    return data
-
-
-if __name__ == "__main__":
-    try:
-        cfg = read_yaml_file("min_max_pattern/config_doubles.yml")
-        print("Loaded YAML:", cfg)
-    except FileNotFoundError as e:
-        print("Error:", e)
-    except yaml.YAMLError as e:
-        print("YAML parse error:", e)
 
 
 def sequence_ok(sequence_count, target):

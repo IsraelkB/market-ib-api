@@ -1,0 +1,57 @@
+# ---------------------------------------------------------------------------
+# Trading Configuration File
+# This file defines the parameters for fetching market data and executing
+# Bollinger-Bands–based breakout trades with stop-loss logic.
+# ---------------------------------------------------------------------------
+
+# The stock symbols to fetch data for (supports multiple symbols).
+#symbols:
+#  ["NVDA", "AAPL", "MSFT"]
+symbols:
+  ["NVDA"]
+
+# The time period of each bar (candle). Valid IBKR values include:
+#   '1 secs', '5 secs', '10 secs', '15 secs', '30 secs',
+#   '1 min', '2 mins', '3 mins', '5 mins', '10 mins',
+#   '15 mins', '20 mins', '30 mins',
+#   '1 hour', '2 hours', '3 hours', '4 hours', '8 hours',
+#   '1 day', '1 week', '1 month'
+bar_size:
+  "2 mins"
+
+# The duration of historical data to fetch.
+# Examples: '60 S', '30 D', '13 W', '6 M', '10 Y'
+history_duration:
+  "1 D"
+
+# End timestamp of the historical data 'yyyyMMdd HH:mm:ss' format.
+# Leave empty ("") to fetch until the current time.
+# Format example: '20231101 00:00:00'
+history_end_time:
+  ""
+
+# The Bollinger Bands sigma (standard deviation) multiplier.
+# Typically: 1, 2, or 3.
+bollinger_sigma:
+  1
+
+# Stop-loss policy mode:
+#   0 = extreme-policy: stop at highest/lowest point outside the bands
+#   1 = candle-policy: stop at the high/low of the candle that re-entered the bands
+stop_loss_mode:
+  1
+
+# Minimum percentage distance from current price that defines
+# a valid breakout above/below the Bollinger Bands.
+min_breakout_percent:
+  0.15
+
+# Minimum cooldown time (minutes) before taking a new trade after a loss.
+loss_cooldown_minutes:
+  40
+
+# If true (=1), allow trades where the candle that initiates the entry
+# is opposite to the trade direction (e.g., breakdown but candle is green).
+# 1 = enabled, 0 = disabled
+allow_reverse_entry_candle:
+  1

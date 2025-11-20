@@ -1,5 +1,5 @@
 import pandas as pd
-from min_max_pattern.utils import read_yaml_file
+from utils_folder.get_files import read_yaml_file
 from utils_folder.time import duration_in_minutes
 
 cfg = read_yaml_file("config_doubles.yml")

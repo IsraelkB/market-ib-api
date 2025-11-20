@@ -2,8 +2,8 @@ import glob
 import os
 from collections import defaultdict
 import pandas as pd
-from utils_folder.get_path import get_base_path
-
+from .get_path import get_base_path
+import yaml
 
 def get_list_files(path, need_convert_date):
     trade_path = f"C:/Users/Israel/PycharmProjects/market ib api/{path}"
@@ -48,3 +48,20 @@ def open_file_to_write(relative_path, df):
     csv_file = f"{root_path}/{relative_path}.csv"
     os.makedirs(os.path.dirname(csv_file), exist_ok=True)
     df.to_csv(csv_file, index=False)
+
+
+def read_yaml_file(file_name: str):
+    """
+    Reads a YAML file either from the current working directory (when running normally)
+    or from the same folder as the executable (when running a PyInstaller EXE).
+    """
+    base_path = get_base_path()
+
+    file_path = base_path / file_name
+
+    if not file_path.exists():
+        raise FileNotFoundError(f"YAML file not found: {file_path}")
+
+    with file_path.open("r", encoding="utf-8") as f:
+        data = yaml.safe_load(f)
+    return data
