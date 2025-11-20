@@ -9,8 +9,8 @@ from fastapi import FastAPI
 app = FastAPI()
 
 if __name__ == "__main__":
-    bollinger_bands()
-    # min_max()
+    # bollinger_bands()
+    min_max()
 
 # for creating .exe file use the command:
 # pyinstaller --onefile --add-data ".env;." main.py

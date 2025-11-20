@@ -1,12 +1,14 @@
 stock_list:
-  [ "etsy", "smr", "asts", "qubt", "rklb", "upst", "oklo",
-    "rddt", "alab", "rgti", "rblx", "iren", "mp", "rcat", "qbts",
-    "clsk", "nne", "vktx", "enph", "crcl", "sndk", "nbis", "crwv", "baba"]
+   [ "alab", "asts", "baba", "crcl", "crwv", "clsk", "etsy","enph",
+     "iren", "mp", "nbis", "nne", "oklo", "qbts", "qubt","vktx",
+     "rcat", "rblx", "rgti", "rklb", "rddt", "smr", "sndk","upst",
+     "lite", "shop", "fngu", "upro", "qbtz", "rgtz", "alab","psq"]
+
 
 
 # how much time take between the calls to the next time
 time_to_sleep:
-  600 # 10 minutes - 60 sec * 10
+  300 # 5 minutes - 60 sec * 5
 
 # how many candles get from IBKR app
 candles_to_get:
@@ -14,18 +16,18 @@ candles_to_get:
 
 # percentage_in_pattern - if is double top so the second top is under or the same price, or in bottom is above or the same price
 difference_small_in_pattern:
-  0.02
+  0.04
 
 # percentage_in_pattern - if is double top so the second top is under or the same price, or in bottom is above or the same price
 difference_large_in_pattern:
-  0.1
+  0.20
 
 # percentage_against - if is double top so the second top is above the first one, or in bottom is under the first one.
 difference_small_against:
   0.02
 
 difference_large_against:
-  0.1
+  0.15
 
 large:
   100

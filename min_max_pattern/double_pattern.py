@@ -138,7 +138,9 @@ def is_cross_double_candles(curr_double, df_candle, is_bottom):
     i = duration_in_minutes(df_candle.iloc[0]["date"], curr_double[0]["date"]) / candle_duration_minutes
     until = duration_in_minutes(df_candle.iloc[0]["date"], curr_double[1]["date"]) / candle_duration_minutes
     i = int(i) + 1
-    while i < until and i < len(df_candle):
+    if i >= len(df_candle):
+        return True
+    while i < until:
         curr_row = df_candle.iloc[i]
         curr_min_max = get_min_max_point(curr_row["open"], curr_row["close"])
         if is_bottom and curr_min_max > min_max_point:

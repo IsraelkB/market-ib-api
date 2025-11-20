@@ -1,5 +1,3 @@
-import os
-import sys
 from .bb_strategy_backtester_for_file import run_backtest
 from .calc_ratio import run_calc_ratio
 from .prepare_stock_bb_data import run_ib_test
@@ -15,7 +13,7 @@ def bollinger_bands():
 
     # csv_file = Path(__file__).parent / "reports" / f"{stock_settings["stock_name"]}" / f"{csv_name}.csv"
     for stock in stock_names:
-        csv_name = f"period-{stock_settings["duration_time"]}_bars-{stock_settings["bar_size"]}"
+        csv_name = f"{stock}-{stock_settings["bar_size"]}"
         csv_file = f"{root_path}/reports/bars/{stock}/{csv_name}.csv"
         try:
             report_path = run_ib_test(stock_settings, csv_file, stock)
