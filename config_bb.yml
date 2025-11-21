@@ -8,7 +8,7 @@
 #symbols:
 #  ["NVDA", "AAPL", "MSFT"]
 symbols:
-  ["NVDA"]
+  ["aapl", "nvda", "msft", "tsla", "qubt"]
 
 # The time period of each bar (candle). Valid IBKR values include:
 #   '1 secs', '5 secs', '10 secs', '15 secs', '30 secs',
@@ -22,7 +22,7 @@ bar_size:
 # The duration of historical data to fetch.
 # Examples: '60 S', '30 D', '13 W', '6 M', '10 Y'
 history_duration:
-  "1 D"
+  "1 M"
 
 # End timestamp of the historical data 'yyyyMMdd HH:mm:ss' format.
 # Leave empty ("") to fetch until the current time.
@@ -43,8 +43,9 @@ stop_loss_mode:
 
 # Minimum percentage distance from current price that defines
 # a valid breakout above/below the Bollinger Bands.
+# 0.15% - the precent you want * 0.1
 min_breakout_percent:
-  0.15
+  0.0015
 
 # Minimum cooldown time (minutes) before taking a new trade after a loss.
 loss_cooldown_minutes:
@@ -55,3 +56,11 @@ loss_cooldown_minutes:
 # 1 = enabled, 0 = disabled
 allow_reverse_entry_candle:
   1
+
+
+# policy that i have functionality for:
+# right now :
+#  1. retest-braking down/up and then retest to the bb indicator, buying in the close of the candle that brak in again,
+#    stop depend on stop_loss_mode variable.
+policy:
+  "retest"

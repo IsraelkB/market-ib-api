@@ -1,4 +1,5 @@
-from .bb_strategy_backtester_for_file import run_backtest
+from .bb_break_retest_backtest import run_bb_break_retest_strategy_backtest
+from .bb_context import BBContext
 from .calc_ratio import run_calc_ratio
 from .prepare_stock_bb_data import run_ib_test
 from utils_folder.get_data_config import get_config_stock_settings, get_config_bb_settings
@@ -6,15 +7,15 @@ from utils_folder.get_path import get_base_path
 
 def bollinger_bands():
     stock_settings = get_config_stock_settings()
-    bb_settings = get_config_bb_settings()
 
     root_path = get_base_path()
     stock_names = stock_settings["stock_names"]
 
-    # csv_file = Path(__file__).parent / "reports" / f"{stock_settings["stock_name"]}" / f"{csv_name}.csv"
     for stock in stock_names:
-        csv_name = f"{stock}-{stock_settings["bar_size"]}"
-        csv_file = f"{root_path}/reports/bars/{stock}/{csv_name}.csv"
+        bb_settings = BBContext(stock)
+        bb_settings.reset_results()
+        csv_name = f"{bb_settings.stock_name}-{stock_settings["bar_size"]}"
+        csv_file = f"{root_path}/reports/bars/{bb_settings.stock_name}/{csv_name}.csv"
         try:
             report_path = run_ib_test(stock_settings, csv_file, stock)
             print(f"✅ IB test and data collection finished. Report saved to: {report_path}")
@@ -24,8 +25,8 @@ def bollinger_bands():
 
         print("Starting backtesting strategy...")
         try:
-            analyze_path = run_backtest(bb_settings, csv_name, stock, root_path,
-                                        file_path_to_process=report_path)
+            analyze_path = run_bb_break_retest_strategy_backtest(bb_settings, csv_name, root_path,
+                                                                 input_data_path=report_path)
             print(f"✅ Backtesting finished. Analysis saved to: {analyze_path}")
         except Exception as e:
             print(f"❌ Error during backtesting: {e}")
@@ -39,4 +40,4 @@ def bollinger_bands():
             print(f"❌ Error during ratio calculation: {e}")
             exit()
 
-        print("\n--- All steps completed successfully! ---")
+    print("\t--- All steps completed successfully! ---")
