@@ -4,7 +4,7 @@ import csv
 import os
 from config import settings
 from indecators.calculate_bollinger_bands import calculate_bollinger_bands
-from indecators.calculate_ma_100 import ma_100
+from indecators.calculate_ma import ma_100, ma_20, ma_50
 from ib_insync_local.get_stock_data import get_stock_data
 
 
@@ -23,7 +23,7 @@ def run_ib_test(stock_settings, csv_file, stock):
             print(f"⚠️ לא התקבלו נתונים עבור {stock}")
 
         calculate_bollinger_bands(df)
-        ma_100(df)
+        ma_20(df)
         # calculate_bollinger_bands_pandas(df_pandas)
 
         for _, row in df.iterrows():
